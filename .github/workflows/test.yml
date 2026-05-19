@@ -1,37 +1,41 @@
 name: Test
-
-on:
+'on':
   pull_request:
-    branches: [ master ]
-
+    branches:
+    - master
 permissions:
   contents: read
-
 jobs:
   frieza-clean:
-    runs-on: [self-hosted, linux, eu-west-2]
+    runs-on: ubuntu-latest
     steps:
-    - name: ⬇️ Checkout repository
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-    - name: 🧹 Frieza
+    - name: "\u2B07\uFE0F Checkout repository"
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - name: "\U0001F9F9 Frieza"
       uses: ./frieza-clean
       with:
-          access_key: ${{ secrets.OSC_ACCESS_KEY }}
-          secret_key: ${{ secrets.OSC_SECRET_KEY }}
-          region: ${{ secrets.OSC_REGION }}
-          post_script: |
-            echo "Good bye World !"
-    - name: ⬇️ Install octl
-      run: |
-        curl -L -o octl https://github.com/outscale/octl/releases/download/${{vars.OCTL_VERSION}}/octl_Linux_x86_64
+        access_key: ${{ secrets.OSC_ACCESS_KEY }}
+        secret_key: ${{ secrets.OSC_SECRET_KEY }}
+        region: ${{ secrets.OSC_REGION }}
+        post_script: 'echo "Good bye World !"
+
+          '
+    - name: "\u2B07\uFE0F Install octl"
+      run: 'curl -L -o octl https://github.com/outscale/octl/releases/download/${{vars.OCTL_VERSION}}/octl_Linux_x86_64
+
         install octl /usr/local/bin
-    - name: 🔐 Create default profile
-      run: |
-        octl profile add default --ak $OSC_ACCESS_KEY --sk $OSC_SECRET_KEY --region $OSC_REGION
+
+        '
+    - name: "\U0001F510 Create default profile"
+      run: 'octl profile add default --ak $OSC_ACCESS_KEY --sk $OSC_SECRET_KEY --region
+        $OSC_REGION
+
+        '
       env:
         OSC_ACCESS_KEY: ${{secrets.OSC_ACCESS_KEY}}
         OSC_SECRET_KEY: ${{secrets.OSC_SECRET_KEY}}
         OSC_REGION: ${{secrets.OSC_REGION}}
-    - name: 🏗️ Create test resource
-      run: |
-        octl iaas keypair create --name $GITHUB_SHA --jq .KeypairId
+    - name: "\U0001F3D7\uFE0F Create test resource"
+      run: 'octl iaas keypair create --name $GITHUB_SHA --jq .KeypairId
+
+        '
